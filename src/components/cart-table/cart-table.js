@@ -3,7 +3,7 @@ import {deleteFromCart} from '../../actions';
 import {connect} from 'react-redux';
 import './cart-table.scss';
 
-const CartTable = ({items, deleteFromCart}) => {
+const CartTable = ({items, deleteFromCart, counters}) => {
     return (
         <>
             <div className="cart__title">Ваш заказ:</div>
@@ -17,6 +17,7 @@ const CartTable = ({items, deleteFromCart}) => {
                                 <div className="cart__item-title">{title}</div>
                                 <div className="cart__item-price">{price}$</div>
                                 <div onClick={() => deleteFromCart(id)} className="cart__close">&times;</div>
+                                <div className="cart__counter">Amount: {counters[id]}</div>
                             </div>
                         )
                     })
@@ -27,9 +28,10 @@ const CartTable = ({items, deleteFromCart}) => {
     );
 };
 
-const mapStateToProps = ({items}) => {
+const mapStateToProps = (state) => {
     return {
-        items
+        items: state.items,
+        counters: state.counters
     }
 };
 
