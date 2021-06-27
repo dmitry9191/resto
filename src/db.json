@@ -39,12 +39,46 @@
   "order": [
     [
       {
-        "id": 5,
+        "id": 2,
+        "amount": 1
+      }
+    ],
+    [
+      {
+        "id": 2,
+        "amount": 2
+      },
+      {
+        "id": 4,
+        "amount": 3
+      },
+      {
+        "id": 3,
+        "amount": 1
+      }
+    ],
+    [
+      {
+        "id": 3,
         "amount": 2
       },
       {
         "id": 4,
         "amount": 2
+      },
+      {
+        "id": 5,
+        "amount": 2
+      }
+    ],
+    [
+      {
+        "id": 2,
+        "amount": 2
+      },
+      {
+        "id": 3,
+        "amount": 1
       }
     ]
   ]

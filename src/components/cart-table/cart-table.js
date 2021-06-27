@@ -6,16 +6,10 @@ import './cart-table.scss';
 
 const CartTable = ({RestoService, items, deleteFromCart, counters}) => {
 
-    const keys = Object.keys(counters);
-    const postData = items.map(item => {
-        const elem = keys.find(el => el === item.id.toString());
-        return {
-            id: item.id,
-            amount: counters[elem]
-        }
-    });
-
-    const postDataJson = JSON.stringify(postData);
+    const btn = (items.length > 0) ? <button 
+                                        className="cart__button" 
+                                        onClick={() => RestoService.postCart(postDataJson(counters, items))
+                                            .then(data => console.log(data))}>Send an order</button> : null;
 
     return (
         <>
@@ -35,13 +29,26 @@ const CartTable = ({RestoService, items, deleteFromCart, counters}) => {
                         )   
                     })
                 }
-                <div>
-                    <button onClick={() => RestoService.postCart(postDataJson).then(data => console.log(data))} className="cart__button">Send an order</button>
-                </div>    
+            {btn}
             </div>
         </>
     );
 };
+
+const postDataJson = (countArr, itemArr) => {
+    const keys = Object.keys(countArr);
+    const postData = itemArr.map(item => {
+        const elem = keys.find(el => el === item.id.toString());
+        
+        return {
+            id: item.id,
+            amount: countArr[elem]
+        };
+    });
+
+    return JSON.stringify(postData);
+};
+
 
 const mapStateToProps = (state) => {
     return {
