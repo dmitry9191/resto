@@ -1,9 +1,22 @@
 import React from 'react';
 import {deleteFromCart} from '../../actions';
 import {connect} from 'react-redux';
+import WithRestoService from '../hoc';
 import './cart-table.scss';
 
-const CartTable = ({items, deleteFromCart, counters}) => {
+const CartTable = ({RestoService, items, deleteFromCart, counters}) => {
+
+    const keys = Object.keys(counters);
+    const postData = items.map(item => {
+        const elem = keys.find(el => el === item.id.toString());
+        return {
+            id: item.id,
+            amount: counters[elem]
+        }
+    });
+
+    const postDataJson = JSON.stringify(postData);
+
     return (
         <>
             <div className="cart__title">Ваш заказ:</div>
@@ -19,10 +32,12 @@ const CartTable = ({items, deleteFromCart, counters}) => {
                                 <div onClick={() => deleteFromCart(id)} className="cart__close">&times;</div>
                                 <div className="cart__counter">Amount: {counters[id]}</div>
                             </div>
-                        )
+                        )   
                     })
                 }
-                
+                <div>
+                    <button onClick={() => RestoService.postCart(postDataJson).then(data => console.log(data))} className="cart__button">Send an order</button>
+                </div>    
             </div>
         </>
     );
@@ -39,4 +54,4 @@ const mapDispatchToProps = {
     deleteFromCart
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CartTable);
+export default WithRestoService()(connect(mapStateToProps, mapDispatchToProps)(CartTable));

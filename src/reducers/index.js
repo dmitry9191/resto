@@ -3,7 +3,8 @@ const initialState = {
     items: [],
     loading: true,
     error: false,
-    counters: {}
+    counters: {},
+    total: 0
 }
 
 const reducer = (state = initialState, action) => {
@@ -47,7 +48,8 @@ const reducer = (state = initialState, action) => {
                     counters: {
                         ...state.counters,
                         [id]: state.counters[id] + 1
-                    }
+                    },
+                    total: state.total + newItem.price
                 }
             }
 
@@ -56,11 +58,12 @@ const reducer = (state = initialState, action) => {
                 items: [
                     ...state.items,
                     newItem
-                ],
+                ],  
                 counters: {
                     ...state.counters,
                     [id]: 1
-                }
+                },
+                total: state.total + newItem.price
             }; 
         
         case 'ITEM_REMOVE_FROM_CART':
@@ -77,9 +80,10 @@ const reducer = (state = initialState, action) => {
                     ...state.items.slice(0, itemIndex),
                     ...state.items.slice(itemIndex + 1)
                 ],
-                counters: newCounters
+                counters: newCounters,
+                total: state.total - state.counters[idx] * state.items[itemIndex].price
             }; 
-
+        
         default:
             return state;
     }
